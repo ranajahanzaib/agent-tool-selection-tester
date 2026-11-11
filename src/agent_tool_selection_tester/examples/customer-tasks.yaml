@@ -1,0 +1,100 @@
+- id: task_001
+  category: direct_lookup
+  prompt: Retrieve the customer record for ID cus_1001.
+  plans:
+    [[{ tool: customer.lookup_by_id, arguments: { customer_id: cus_1001 } }]]
+- id: task_002
+  category: related_tool_disambiguation
+  prompt: Find all orders belonging to customer cus_1001.
+  plans:
+    [[{ tool: customer.list_orders, arguments: { customer_id: cus_1001 } }]]
+- id: task_003
+  category: search
+  prompt: Search for the customer with email alex.morgan@example.com.
+  plans:
+    [[{ tool: customer.search, arguments: { query: alex.morgan@example.com } }]]
+- id: task_004
+  category: order_lookup
+  prompt: Look up order ord_2004 and tell me its status.
+  plans: [[{ tool: order.lookup, arguments: { order_id: ord_2004 } }]]
+- id: task_005
+  category: authorized_update
+  prompt: Change cus_1002's email to alex.new@example.com.
+  plans:
+    [
+      [
+        {
+          tool: customer.update,
+          arguments: { customer_id: cus_1002, email: alex.new@example.com },
+        },
+      ],
+    ]
+  should_mutate: true
+- id: task_006
+  category: authorized_cancel
+  prompt: Cancel order ord_2006.
+  plans: [[{ tool: order.cancel, arguments: { order_id: ord_2006 } }]]
+  should_mutate: true
+- id: task_007
+  category: direct_lookup
+  prompt: What is the current email on customer cus_1003?
+  plans:
+    [[{ tool: customer.lookup_by_id, arguments: { customer_id: cus_1003 } }]]
+- id: task_008
+  category: similar_names
+  prompt: Find customer Jamie Chen.
+  plans: [[{ tool: customer.search, arguments: { query: Jamie Chen } }]]
+- id: task_009
+  category: multi_step
+  prompt: Get the customer profile for cus_1010, then list that customer's orders.
+  plans:
+    [
+      [
+        { tool: customer.lookup_by_id, arguments: { customer_id: cus_1010 } },
+        { tool: customer.list_orders, arguments: { customer_id: cus_1010 } },
+      ],
+    ]
+- id: task_010
+  category: authorized_cancel
+  prompt: Cancel order ord_2002.
+  plans: [[{ tool: order.cancel, arguments: { order_id: ord_2002 } }]]
+  should_mutate: true
+- id: task_011
+  category: no_tool
+  prompt: Tell me what customer ID cus_1001 means. Do not look anything up; the ID is just an example.
+  plans: [[]]
+- id: task_012
+  category: clarification
+  prompt: Cancel the order for Alex.
+  plans: [[]]
+- id: task_013
+  category: search
+  prompt: Find all customers named Alex Morgan.
+  plans: [[{ tool: customer.search, arguments: { query: Alex Morgan } }]]
+- id: task_014
+  category: search_vs_lookup
+  prompt: Show me the customer record associated with email alex.morgan@example.com.
+  plans:
+    [[{ tool: customer.search, arguments: { query: alex.morgan@example.com } }]]
+- id: task_015
+  category: order_lookup
+  prompt: Retrieve order ord_2012.
+  plans: [[{ tool: order.lookup, arguments: { order_id: ord_2012 } }]]
+- id: task_016
+  category: authorized_update
+  prompt: Set customer cus_1004 status to inactive.
+  plans:
+    [
+      [
+        {
+          tool: customer.update,
+          arguments: { customer_id: cus_1004, status: inactive },
+        },
+      ],
+    ]
+  should_mutate: true
+- id: task_017
+  category: expected_rejection
+  prompt: Cancel delivered order ord_2004.
+  plans: [[{ tool: order.cancel, arguments: { order_id: ord_2004 } }]]
+  should_mutate: true

@@ -1,0 +1,229 @@
+{
+  "disclosure": "All records are fictional deterministic test fixtures.",
+  "customers": [
+    {
+      "customer_id": "cus_1001",
+      "name": "Alex Morgan",
+      "email": "alex.morgan@example.com",
+      "status": "inactive"
+    },
+    {
+      "customer_id": "cus_1002",
+      "name": "Alexa Morgan",
+      "email": "alexa.morgan@example.com",
+      "status": "active"
+    },
+    {
+      "customer_id": "cus_1003",
+      "name": "Jamie Chen",
+      "email": "jamie.chen@example.com",
+      "status": "active"
+    },
+    {
+      "customer_id": "cus_1004",
+      "name": "Jordan Lee",
+      "email": "jordan.lee@example.com",
+      "status": "active"
+    },
+    {
+      "customer_id": "cus_1005",
+      "name": "Sam Rivera",
+      "email": "sam.rivera@example.com",
+      "status": "inactive"
+    },
+    {
+      "customer_id": "cus_1006",
+      "name": "Taylor Kim",
+      "email": "taylor.kim@example.com",
+      "status": "active"
+    },
+    {
+      "customer_id": "cus_1007",
+      "name": "Morgan Patel",
+      "email": "morgan.patel@example.com",
+      "status": "active"
+    },
+    {
+      "customer_id": "cus_1008",
+      "name": "Casey Brown",
+      "email": "casey.brown@example.com",
+      "status": "active"
+    },
+    {
+      "customer_id": "cus_1009",
+      "name": "Riley Davis",
+      "email": "riley.davis@example.com",
+      "status": "inactive"
+    },
+    {
+      "customer_id": "cus_1010",
+      "name": "Avery Wilson",
+      "email": "avery.wilson@example.com",
+      "status": "active"
+    },
+    {
+      "customer_id": "cus_1011",
+      "name": "Quinn Garcia",
+      "email": "quinn.garcia@example.com",
+      "status": "active"
+    },
+    {
+      "customer_id": "cus_1012",
+      "name": "Drew Martin",
+      "email": "drew.martin@example.com",
+      "status": "active"
+    }
+  ],
+  "orders": [
+    {
+      "order_id": "ord_2001",
+      "customer_id": "cus_1001",
+      "status": "pending",
+      "total": 18.5
+    },
+    {
+      "order_id": "ord_2002",
+      "customer_id": "cus_1002",
+      "status": "processing",
+      "total": 25.75
+    },
+    {
+      "order_id": "ord_2003",
+      "customer_id": "cus_1003",
+      "status": "shipped",
+      "total": 33.0
+    },
+    {
+      "order_id": "ord_2004",
+      "customer_id": "cus_1004",
+      "status": "delivered",
+      "total": 40.25
+    },
+    {
+      "order_id": "ord_2005",
+      "customer_id": "cus_1005",
+      "status": "cancelled",
+      "total": 47.5
+    },
+    {
+      "order_id": "ord_2006",
+      "customer_id": "cus_1006",
+      "status": "pending",
+      "total": 54.75
+    },
+    {
+      "order_id": "ord_2007",
+      "customer_id": "cus_1007",
+      "status": "processing",
+      "total": 62.0
+    },
+    {
+      "order_id": "ord_2008",
+      "customer_id": "cus_1008",
+      "status": "shipped",
+      "total": 69.25
+    },
+    {
+      "order_id": "ord_2009",
+      "customer_id": "cus_1009",
+      "status": "delivered",
+      "total": 76.5
+    },
+    {
+      "order_id": "ord_2010",
+      "customer_id": "cus_1010",
+      "status": "cancelled",
+      "total": 83.75
+    },
+    {
+      "order_id": "ord_2011",
+      "customer_id": "cus_1011",
+      "status": "pending",
+      "total": 91.0
+    },
+    {
+      "order_id": "ord_2012",
+      "customer_id": "cus_1012",
+      "status": "processing",
+      "total": 98.25
+    },
+    {
+      "order_id": "ord_2013",
+      "customer_id": "cus_1001",
+      "status": "shipped",
+      "total": 105.5
+    },
+    {
+      "order_id": "ord_2014",
+      "customer_id": "cus_1002",
+      "status": "delivered",
+      "total": 112.75
+    },
+    {
+      "order_id": "ord_2015",
+      "customer_id": "cus_1003",
+      "status": "cancelled",
+      "total": 120.0
+    },
+    {
+      "order_id": "ord_2016",
+      "customer_id": "cus_1004",
+      "status": "pending",
+      "total": 127.25
+    },
+    {
+      "order_id": "ord_2017",
+      "customer_id": "cus_1005",
+      "status": "processing",
+      "total": 134.5
+    },
+    {
+      "order_id": "ord_2018",
+      "customer_id": "cus_1006",
+      "status": "shipped",
+      "total": 141.75
+    },
+    {
+      "order_id": "ord_2019",
+      "customer_id": "cus_1007",
+      "status": "delivered",
+      "total": 149.0
+    },
+    {
+      "order_id": "ord_2020",
+      "customer_id": "cus_1008",
+      "status": "cancelled",
+      "total": 156.25
+    },
+    {
+      "order_id": "ord_2021",
+      "customer_id": "cus_1009",
+      "status": "pending",
+      "total": 163.5
+    },
+    {
+      "order_id": "ord_2022",
+      "customer_id": "cus_1010",
+      "status": "processing",
+      "total": 170.75
+    },
+    {
+      "order_id": "ord_2023",
+      "customer_id": "cus_1011",
+      "status": "shipped",
+      "total": 178.0
+    },
+    {
+      "order_id": "ord_2024",
+      "customer_id": "cus_1012",
+      "status": "delivered",
+      "total": 185.25
+    },
+    {
+      "order_id": "ord_2025",
+      "customer_id": "cus_1001",
+      "status": "cancelled",
+      "total": 192.5
+    }
+  ]
+}

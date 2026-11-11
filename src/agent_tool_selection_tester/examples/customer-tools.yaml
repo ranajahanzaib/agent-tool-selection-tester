@@ -1,0 +1,24 @@
+name: customer-tool-comprehension
+description: Evaluate whether local models distinguish related customer and order operations.
+tasks_file: customer-tasks.yaml
+model:
+  provider: ollama
+  name: qwen3:4b-instruct
+  temperature: 0
+  seed: 42
+  max_tool_rounds: 4
+  timeout_seconds: 120
+experiment:
+  repetitions: 3
+  variant_seed: 42
+  include_baseline: true
+mutations:
+  - type: description_paraphrase
+  - type: description_shortened
+  - type: description_elaborated
+  - type: similar_tool_name
+  - type: parameter_alias
+  - type: parameter_description
+  - type: tool_order_shuffle
+  - type: schema_customer_id_optional
+  - type: schema_misleading_query
