@@ -1,46 +1,29 @@
-## Contributing
+# Contributing
 
-We welcome contributions of all kinds to improve this project! Here's how you can get involved:
+Contributions that improve Agent Tool Selection Tester's correctness, usability, and documentation are welcome.
 
-1. **Fork the Repository**: Start by forking the repository to your GitHub account.
+## Development setup
 
-2. **Clone Your Fork**: Clone the forked repository to your local machine:
+Use Python 3.12 or newer and [uv](https://docs.astral.sh/uv/):
 
-   ```bash
-   git clone <repo_url>
-   cd repo_dir
-   ```
+```bash
+git clone https://github.com/ranajahanzaib/agent-tool-selection-tester.git
+cd agent-tool-selection-tester
+uv sync --extra dev
+```
 
-3. **Create a Branch**: Create a new branch for your feature or bug fix:
+Ollama is optional for development and is not needed for the automated test suite. Tests use the deterministic fixture and scripted model adapter.
 
-   ```bash
-   git checkout -b feature-name
-   ```
+## Before opening a pull request
 
-4. **Make Changes**: Make your changes to the codebase. Be sure to follow existing code style and conventions.
+Run the same checks used in CI:
 
-5. **Commit Changes**: Commit your changes with a clear and descriptive message:
+```bash
+uv run ruff check src tests
+uv run mypy src/agent_tool_selection_tester
+uv run pytest
+```
 
-   ```bash
-   git commit -m "Add detailed description of the changes"
-   ```
+For behavior changes, include or update tests and user-facing documentation where needed. Keep generated experiment examples fictional, and label any synthetic results clearly. Do not commit credentials, local databases, model files, or other generated artifacts.
 
-6. **Push Changes**: Push your changes to your fork:
-
-   ```bash
-   git push origin feature-name
-   ```
-
-7. **Submit a Pull Request**: Open a pull request from your branch to the main repository's branch. Include a detailed description of your changes and the problem they solve.
-
-8. **Review and Feedback**: Participate in the review process. Make any requested changes, and your contribution will be merged!
-
-### Guidelines
-
-- Ensure your code follows the existing style and conventions.
-- Include tests for any new functionality or bug fixes.
-- Write clear, concise commit messages and pull request descriptions.
-
-### Issues
-
-Feel free to report bugs or suggest enhancements by creating an issue. Be sure to include detailed information about the problem and, if possible, steps to reproduce it.
+Open an issue for bugs or feature proposals and a pull request for a focused change. Describe observable behavior, relevant test coverage, and any compatibility impact.
