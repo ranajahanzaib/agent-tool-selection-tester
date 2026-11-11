@@ -1,0 +1,70 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agent-tool-selection-tester"
+version = "0.1.0"
+description = "Local experiments for measuring LLM tool comprehension"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+authors = [{ name = "Rana Jahanzaib" }]
+keywords = ["llm", "mcp", "tool-calling", "evaluation", "ollama"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Software Development :: Testing",
+]
+dependencies = [
+  "mcp>=2.0,<3",
+  "ollama>=0.4",
+  "pydantic>=2.8",
+  "PyYAML>=6.0",
+  "jsonschema>=4.23",
+  "typer>=0.12",
+  "rich>=13.9",
+  "streamlit>=1.49",
+  "plotly>=5.24",
+  "pandas>=2.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/ranajahanzaib/agent-tool-selection-tester"
+Repository = "https://github.com/ranajahanzaib/agent-tool-selection-tester"
+Issues = "https://github.com/ranajahanzaib/agent-tool-selection-tester/issues"
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3", "pytest-asyncio>=0.24", "ruff>=0.8", "mypy>=1.13"]
+
+[project.scripts]
+agent-tool-selection-tester = "agent_tool_selection_tester.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agent_tool_selection_tester"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/agent_tool_selection_tester/examples/customer-tools.yaml" = "agent_tool_selection_tester/examples/customer-tools.yaml"
+"src/agent_tool_selection_tester/examples/customer-tasks.yaml" = "agent_tool_selection_tester/examples/customer-tasks.yaml"
+"src/agent_tool_selection_tester/examples/fixture-data.json" = "agent_tool_selection_tester/examples/fixture-data.json"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.mypy]
+python_version = "3.12"
+packages = ["agent_tool_selection_tester"]
+mypy_path = "src"
+ignore_missing_imports = true
