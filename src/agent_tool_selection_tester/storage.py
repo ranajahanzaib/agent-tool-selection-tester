@@ -5,17 +5,47 @@ from __future__ import annotations
 import json
 import os
 import sqlite3
+import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-DEFAULT_DB = Path(os.environ.get("AGENT_TOOL_SELECTION_TESTER_DB", Path.home() / ".agent_tool_selection_tester" / "results.sqlite3"))
+
+def get_default_db_path() -> Path:
+    """Resolve a writable SQLite database path, with graceful fallback if home is restricted."""
+    if "AGENT_TOOL_SELECTION_TESTER_DB" in os.environ:
+        return Path(os.environ["AGENT_TOOL_SELECTION_TESTER_DB"])
+    home_candidate = Path.home() / ".agent_tool_selection_tester" / "results.sqlite3"
+    try:
+        home_candidate.parent.mkdir(parents=True, exist_ok=True)
+        check_file = home_candidate.parent / ".perm_check"
+        check_file.touch(exist_ok=True)
+        check_file.unlink(missing_ok=True)
+        return home_candidate
+    except OSError:
+        pass
+    local_candidate = Path.cwd() / ".agent_tool_selection_tester" / "results.sqlite3"
+    try:
+        local_candidate.parent.mkdir(parents=True, exist_ok=True)
+        check_file = local_candidate.parent / ".perm_check"
+        check_file.touch(exist_ok=True)
+        check_file.unlink(missing_ok=True)
+        return local_candidate
+    except OSError:
+        pass
+    fallback = Path(tempfile.gettempdir()) / "agent_tool_selection_tester" / "results.sqlite3"
+    fallback.parent.mkdir(parents=True, exist_ok=True)
+    return fallback
+
+
+DEFAULT_DB = get_default_db_path()
 
 
 class Store:
-    def __init__(self, path: Path = DEFAULT_DB) -> None:
-        path.parent.mkdir(parents=True, exist_ok=True)
-        self.db = sqlite3.connect(path)
+    def __init__(self, path: Path | None = None) -> None:
+        db_path = path if path is not None else get_default_db_path()
+        db_path.parent.mkdir(parents=True, exist_ok=True)
+        self.db = sqlite3.connect(db_path)
         self.db.row_factory = sqlite3.Row
         self.db.executescript("""
         PRAGMA journal_mode=WAL;

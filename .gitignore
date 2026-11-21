@@ -13,6 +13,7 @@ htmlcov/
 .env
 .env.*
 *.sqlite3
+.agent_tool_selection_tester/
 
 # Build artifacts
 build/
