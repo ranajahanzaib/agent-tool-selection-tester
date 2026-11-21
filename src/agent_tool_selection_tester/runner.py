@@ -72,6 +72,10 @@ class FakeAdapter:
         """Reset script cursors so paired cases get the same scripted responses."""
         self._indices.clear()
 
+    async def model_metadata(self) -> dict[str, Any]:
+        """Return deterministic model metadata for offline execution."""
+        return {"model": "scripted-offline-adapter", "type": "deterministic"}
+
     async def chat(
         self, messages: list[dict[str, Any]], tools: list[dict[str, Any]], config: ExperimentConfig
     ) -> dict[str, Any]:
@@ -91,6 +95,26 @@ class FakeAdapter:
         }
         self.seen.append({"prompt": task_prompt, "tool_order": names, "response": result})
         return result
+
+
+def make_scripted_adapter(tasks: list[Task]) -> FakeAdapter:
+    """Construct a deterministic scripted adapter populated with accepted task plans."""
+    scripts: dict[str, list[dict[str, Any]]] = {}
+    baseline_catalog = {tool.id: tool for tool in catalog()}
+    for task in tasks:
+        if task.plans:
+            calls = []
+            for tool_id, expected_args in task.plans[0]:
+                tool_def = baseline_catalog.get(tool_id)
+                if tool_def:
+                    calls.append({"name": tool_def.name, "arguments": dict(expected_args)})
+            scripts[task.prompt] = [
+                {"tool_calls": calls},
+                {"content": "Operation completed successfully."},
+            ]
+        else:
+            scripts[task.prompt] = [{"content": "I need more information to help with that."}]
+    return FakeAdapter(scripts)
 
 
 def _model_tools(discovered: list[Any]) -> list[dict[str, Any]]:

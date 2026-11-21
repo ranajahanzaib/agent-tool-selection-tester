@@ -17,8 +17,8 @@ from rich.table import Table
 
 from . import __version__
 from .experiment import aggregate, execute, load_config, load_tasks
-from .runner import OllamaAdapter
-from .storage import DEFAULT_DB, Store
+from .runner import ModelAdapter, OllamaAdapter, make_scripted_adapter
+from .storage import Store, get_default_db_path
 
 app = typer.Typer(
     no_args_is_help=True, help="Run local, controlled LLM tool-comprehension experiments."
@@ -64,11 +64,12 @@ def doctor() -> None:
     else:
         console.print("[yellow]![/yellow] Ollama is not installed or is not on PATH")
     try:
-        DEFAULT_DB.parent.mkdir(parents=True, exist_ok=True)
-        with (DEFAULT_DB.parent / ".write-check").open("w") as f:
+        db_path = get_default_db_path()
+        db_path.parent.mkdir(parents=True, exist_ok=True)
+        with (db_path.parent / ".write-check").open("w") as f:
             f.write("ok")
-        (DEFAULT_DB.parent / ".write-check").unlink()
-        console.print(f"[green]✓[/green] Results directory writable: {DEFAULT_DB.parent}")
+        (db_path.parent / ".write-check").unlink()
+        console.print(f"[green]✓[/green] Results directory writable: {db_path.parent}")
     except OSError as exc:
         console.print(f"[red]✗[/red] Results directory unavailable: {exc}")
 
@@ -89,19 +90,28 @@ def run(
     ),
     model: str | None = typer.Option(None, "--model"),
     repetitions: int | None = typer.Option(None, "--repetitions", min=1, max=100),
+    offline: bool = typer.Option(
+        False,
+        "--offline",
+        help="Run with the deterministic scripted adapter without calling Ollama.",
+    ),
     verbose: bool = typer.Option(False, "--verbose"),
 ) -> None:
-    """Run the configured tasks against Ollama and store every trace."""
+    """Run the configured tasks against Ollama (or offline scripted adapter) and store every trace."""
     path = config or _example_config()
     try:
         settings = load_config(path, model, repetitions)
-        adapter = OllamaAdapter(settings.model)
         tasks_path = (
             path.parent / settings.tasks_file
             if settings.tasks_file
             else _example_config().with_name("customer-tasks.yaml")
         )
         tasks = load_tasks(tasks_path)
+        adapter: ModelAdapter
+        if offline or settings.provider == "scripted":
+            adapter = make_scripted_adapter(tasks)
+        else:
+            adapter = OllamaAdapter(settings.model)
     except Exception as exc:
         raise typer.BadParameter(str(exc)) from exc
     store = Store()
@@ -383,8 +393,12 @@ def ui() -> None:
 
 
 @app.command()
-def demo() -> None:
-    """Open the dashboard and clearly label the bundled synthetic illustration."""
+def demo(
+    open_ui: bool = typer.Option(
+        True, "--ui/--no-ui", help="Open the dashboard after seeding demo data."
+    ),
+) -> None:
+    """Seed the bundled synthetic demonstration and optionally open the dashboard."""
     from .demo import seed_demo
 
     store = Store()
@@ -395,7 +409,8 @@ def demo() -> None:
     console.print(
         f"[yellow]Created synthetic demonstration run {run_id}. It is not model measurement.[/yellow]"
     )
-    ui()
+    if open_ui:
+        ui()
 
 
 if __name__ == "__main__":

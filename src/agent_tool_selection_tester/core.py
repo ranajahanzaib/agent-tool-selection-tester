@@ -48,7 +48,7 @@ class ExperimentConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
     name: str = "customer-tool-comprehension"
     description: str = "Evaluate related customer-management tools."
-    provider: Literal["ollama"] = "ollama"
+    provider: Literal["ollama", "scripted"] = "ollama"
     model: str = "qwen3:4b-instruct"
     temperature: float = Field(default=0, ge=0, le=2)
     seed: int = 42
