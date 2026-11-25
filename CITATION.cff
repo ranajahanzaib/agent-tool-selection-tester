@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use Agent Tool Selection Tester in research or teaching, please cite this software."
+title: "Agent Tool Selection Tester"
+version: 0.1.0
+authors:
+  - family-names: Rana
+    given-names: Jahanzaib
+    orcid: "https://orcid.org/0009-0006-7085-0440"
+repository-code: "https://github.com/ranajahanzaib/agent-tool-selection-tester"
+license: MIT
+abstract: "Empirical behavioral evaluation companion for Model Context Protocol (MCP) tool integration. Measure how local language models select, parameterize, and execute related tools when exposed to controlled variations in tool names, descriptions, parameter aliases, or catalog ordering."
+keywords:
+  - llm
+  - mcp
+  - tool-calling
+  - evaluation
+  - ollama
